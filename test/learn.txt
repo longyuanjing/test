@@ -1,0 +1,4 @@
+git remote add origin https://github.com/longyuanjing/test.git
+ git push -u origin master
+ 
+ express -e project2         node 使用ejs / html
