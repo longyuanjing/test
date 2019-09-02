@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<style>
+    .divContent {
+        width: 200px;
+        height: 200px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        margin: auto;
+        background-color: aliceblue;
+        position: absolute;
+    }
+
+    .middle {
+        height: 400px;
+        width: 400px;
+        position: relative;
+    }
+
+    .wanner {
+        height: 200px;
+        width: 100px;
+        position: absolute;
+        overflow: hidden;
+    }
+
+    .right {
+        right: 0;
+    }
+
+    .left {
+        left: 0;
+    }
+
+    .rightInner {
+        width: 160px;
+        height: 160px;
+        border: 20px solid transparent;
+        border-top: 20px solid green;
+        border-right: 20px solid green;
+        border-radius: 50%;
+        right: 0;
+        animation: rightAnimation 5s linear infinite;
+        position:absolute;
+        /* position必要 相对父元素定位*/
+    }
+
+    .leftInner {
+        width: 160px;
+        height: 160px;
+        border: 20px solid transparent;
+        border-top: 20px solid green;
+        border-right: 20px solid green;
+        border-radius: 50%;
+        left: 0;
+        animation: leftAnimation 5s linear infinite;
+        position:absolute;
+    }
+
+    @keyframes rightAnimation {
+        0%{
+            transform: rotate(-135deg);
+        }
+        50%,100%{
+            transform: rotate(45deg);
+        }
+    }
+
+    @keyframes leftAnimation {
+        0%,50%{
+            transform: rotate(45deg);
+        }
+        100%{
+            transform: rotate(225deg);
+        }
+    }
+</style>
+
+<bod>
+    <div class="middle">
+        <div class="divContent">
+            <div class="wanner left">
+                <div class="leftInner"></div>
+            </div>
+            <div class="wanner right">
+                <div class="rightInner"></div>
+            </div>
+        </div>
+    </div>
+    </body>
+
+</html>
