@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <canvas id="canvas" width="400px" height="400px"></canvas>
+    </body>
+    <script>
+        let canvas = document.getElementById('canvas');
+        let ctx = canvas.getContext('2d');
+
+        const WIDTH = canvas.width;
+        const HEIGHT = canvas.height;
+
+        ctx.translate(WIDTH/2,HEIGHT/2);
+        ctx.rotate(-Math.PI/2);//逆时针旋转90度
+
+        let defaultPoint = 0;
+
+        animation();
+
+        function animation(){
+            defaultPoint+=0.01;
+
+            draw();
+
+            if(defaultPoint>=Math.PI*2){
+                defaultPoint=0;
+            }
+
+            window.requestAnimationFrame(animation);
+        }
+
+        function draw(){
+            ctx.clearRect(0, 0, WIDTH, HEIGHT);
+            //灰色环
+            let circle={
+               ctx:ctx,
+               x:0,
+               y:0,
+               radius:WIDTH/2-20,
+               color:'gray',
+               lineWidth:20,
+               startPoint:defaultPoint,
+               endPoint:Math.PI*2
+            }
+            drawCircle(circle);
+            //彩色环
+            let circleColor={
+               ctx:ctx,
+               x:0,
+               y:0,
+               radius:WIDTH/2-20,
+               color:'green',
+               lineWidth:20,
+               startPoint:0,
+               endPoint:defaultPoint
+            }
+            drawCircle(circleColor);
+        }
+
+        function drawCircle(circle){
+            ctx.beginPath();
+            ctx.arc(circle.x,circle.y,circle.radius,circle.startPoint,circle.endPoint,false);
+            ctx.lineWidth=circle.lineWidth;
+            ctx.strokeStyle=circle.color;
+            ctx.stroke();
+            ctx.closePath();
+        }
+    </script>
+</html>

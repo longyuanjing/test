@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <canvas id="canvas" width="300" height="300"></canvas>
+</body>
+<script>
+    let canvas = document.getElementById('canvas');
+    let ctx = canvas.getContext("2d");
+
+    let width = canvas.width;
+    let height = canvas.height;
+
+    ctx.translate(width / 2, height / 2); // 将画布原点移动到中心位置
+    //ctx.scale(-1, 1); // 翻转180°（缩放功能 scale(x轴，y轴)）
+    //ctx.rotate(-Math.PI / 2); // 旋转-90°
+
+    // 设置最开始灰色的圆为360°即 Math.PI * 2
+    let defaultAngle = Math.PI * 2;
+
+    animate();
+
+    function animate() {
+        // 逐帧动画
+        defaultAngle -= 0.01; // 这个值可以根据个人需要修改（动画快慢）
+        // 因为我们设置的是灰色的圆的角度，对应的就是有色的圆的度数，即假设灰色的圆90°(1/4)的时候，有色的圆占比就为3/4
+
+        draw();
+
+        if (defaultAngle <=0) {
+            draw(); // 当动画结束的时候再绘制一次
+            return
+        }
+
+        window.requestAnimationFrame(animate);
+    }
+
+    function draw() {
+        // 为了避免每次绘制的时候出现一些奇奇怪怪的问题，比如拖影之类的，每次绘制之前清空一次绘布
+        ctx.clearRect(0, 0, width, height);
+
+        let circleObj = {
+            ctx: ctx,
+            /*圆心*/
+            x: 0,
+            y: 0,
+            /*半径*/
+            radius: width / 2 - 10,//半径比canvas宽的一半要小
+            /*环的宽度*/
+            lineWidth: 10
+        };
+
+        /*灰色的圆环*/
+        circleObj.startAngle = Math.PI * 2;
+        circleObj.endAngle = defaultAngle; // 对应 360° 的 1/4 即 90°
+        circleObj.color = '#e9e9e9';
+        drawCircle(circleObj);
+
+        /*有色的圆环*/
+        /*开始的度数-从上一个结束的位置开始*/
+        circleObj.startAngle = circleObj.endAngle;
+        /*结束的度数 Math.PI * 2 */
+        circleObj.endAngle = Math.PI * 2;
+
+        let grd = ctx.createLinearGradient(width / 2, 0, 0, height);
+        grd.addColorStop(0, "#fff400");
+        grd.addColorStop(1, "#dd6200");
+
+        circleObj.color = grd;
+        drawCircle(circleObj);
+    }
+
+    /*画曲线*/
+    function drawCircle(circleObj) {
+        let ctx = circleObj.ctx;
+        ctx.beginPath();
+        ctx.arc(circleObj.x, circleObj.y, circleObj.radius, circleObj.startAngle, circleObj.endAngle, false);
+        //设定曲线粗细度
+        ctx.lineWidth = circleObj.lineWidth;
+        //给曲线着色
+        ctx.strokeStyle = circleObj.color;
+        //连接处样式
+        ctx.lineCap = 'round';
+        //给环着色
+        ctx.stroke();
+        ctx.closePath();
+    }
+</script>
+
+</html>
